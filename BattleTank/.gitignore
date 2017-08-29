@@ -71,5 +71,8 @@ Saved/*
 # Compiled source files for the engine to use
 Intermediate/*
 
+# StarterContent, own gitignore; might have to remove later.
+Content/StarterContent/*
+
 # Cache files for the editor to use
 DerivedDataCache/*
