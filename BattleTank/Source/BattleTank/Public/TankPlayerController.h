@@ -20,5 +20,12 @@ public:
 
 	ATank* ATankPlayerController::GetControlledTank()const;
 	void BeginPlay() override;
+		//needed for aiming.
+	void Tick(float DeltaTime) override;
+
+private:
+	void AimTowardsCrossHair();
+	bool GetSightRayHitLocation(FVector& HitLocation)const;
+	
 	
 };
