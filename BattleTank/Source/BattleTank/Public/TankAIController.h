@@ -3,6 +3,8 @@
 #pragma once
 #include "Tank.h"
 #include "Engine/World.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
+#include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "TankAIController.generated.h"
@@ -22,5 +24,6 @@ private:
 	virtual void BeginPlay();
 	ATank* GetControlledTank()const;
 	ATank* GetPlayerTank()const;
+	virtual void Tick(float DeltaTime) override;
 	
 };

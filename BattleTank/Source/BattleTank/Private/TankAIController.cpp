@@ -38,3 +38,25 @@ ATank * ATankAIController::GetPlayerTank() const
 		return Cast<ATank>(PlayerPawn);
 	}
 }
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+		//get Player Tank.
+	if (GetPlayerTank())
+	{
+		//TODO move towards player.
+
+		//aim towards player.
+
+			//return tank that's controlled by AI.
+			//call AimAt from Tank.cpp.
+			//get the Tank player is controlling and get location.
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+
+		//Fire if rdy.
+	}
+
+}
+
