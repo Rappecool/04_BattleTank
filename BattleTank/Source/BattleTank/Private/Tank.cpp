@@ -23,6 +23,14 @@ void ATank::AimAt(FVector HitLocation)
 	UE_LOG(LogTemp, Warning, TEXT("%s aiming at: %s"), *OurTankName, *HitLocation.ToString());*/
 }
 
+UFUNCTION(BluePrintCallable, Category = Setup) void ATank::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+		//calls our aimingcomponent to set current BarrelReference.
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
+
+	return UFUNCTION(BluePrintCallable, Category = Setup) void();
+}
+
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();

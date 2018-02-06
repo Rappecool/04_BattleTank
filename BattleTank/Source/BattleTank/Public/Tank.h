@@ -16,6 +16,8 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 	void AimAt(FVector HitLocation);
+		//UFUNCTION blueprintcallable, gör så vi kan kalla på func i BP.
+	UFUNCTION(BluePrintCallable, Category = Setup) void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,6 +31,7 @@ private:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 	
 	
