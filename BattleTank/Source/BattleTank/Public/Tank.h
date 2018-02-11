@@ -2,10 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "TankAimingComponent.h"
+#include "CoreMinimal.h"	
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
+
+class TankBarrel; //Forward Declaration
+class UTankAimingComponent; //Forward declaration
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -17,7 +19,7 @@ public:
 	ATank();
 	void AimAt(FVector HitLocation);
 		//UFUNCTION blueprintcallable, gör så vi kan kalla på func i BP.
-	UFUNCTION(BluePrintCallable, Category = Setup) void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	UFUNCTION(BluePrintCallable, Category = Setup) void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,8 +28,6 @@ protected:
 
 
 private:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
