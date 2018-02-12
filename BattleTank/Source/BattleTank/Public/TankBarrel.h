@@ -20,7 +20,8 @@ public:
 
 	
 private:
-	UPROPERTY(EditAnywhere, Category = Setup) float MaxDegreesPerSecond = 5;
+		//setup variables for Elevation of barrel.
+	UPROPERTY(EditAnywhere, Category = Setup) float MaxDegreesPerSecond = 10;
 	UPROPERTY(EditAnywhere, Category = Aiming) float MinElevation = 0;
 	UPROPERTY(EditAnywhere, Category = Aiming) float MaxElevation = 40;
 	

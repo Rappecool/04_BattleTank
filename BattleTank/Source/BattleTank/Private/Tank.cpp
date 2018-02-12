@@ -18,6 +18,7 @@ void ATank::AimAt(FVector HitLocation)
 {
 		//Add LaunchSpeed to be parsed 
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
+	TankAimingComponent->AimAtTurret(HitLocation, LaunchSpeed);
 	
 
 	/*auto OurTankName = GetName();
@@ -29,7 +30,28 @@ UFUNCTION(BluePrintCallable, Category = Setup) void ATank::SetBarrelReference(UT
 		//calls our aimingcomponent to set current BarrelReference.
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 
+	UE_LOG(LogTemp,Warning,TEXT("SetBarrelReference succeeded."))
+
 	return UFUNCTION(BluePrintCallable, Category = Setup) void();
+}
+
+UFUNCTION(BluePrintCallable, Category = Setup) void ATank::SetTurretReference(UTankTurret * TurretToSet)
+{
+		//calls our aimingComponent to set current BarrelReference.
+	TankAimingComponent->SetTurretReference(TurretToSet);
+
+	UE_LOG(LogTemp, Warning, TEXT("SetTurretReference succeeded"));
+
+	return UFUNCTION(BluePrintCallable, Category = Setup) void();
+}
+
+UFUNCTION(BluePrintCallable, Category = Firing) void ATank::Fire()
+{
+	auto Time = GetWorld()->GetTimeSeconds();
+
+	UE_LOG(LogTemp, Warning, TEXT("%f: Firing!"),Time);
+
+	return UFUNCTION(BluePrintCallable, Category = Firing) void();
 }
 
 void ATank::BeginPlay()

@@ -10,7 +10,7 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	auto Time = GetWorld()->GetTimeSeconds();
 
 	//sets max and min relative speed.
-	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, +1);
+	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
 
 	//move the barrel the right amount this frame
 	//Given a max elevation speed, and the frame time.

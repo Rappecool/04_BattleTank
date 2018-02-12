@@ -8,6 +8,7 @@
 
 class TankBarrel; //Forward Declaration
 class UTankAimingComponent; //Forward declaration
+class UTankTurret; //Forward Declaration
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -17,9 +18,14 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
+
 	void AimAt(FVector HitLocation);
 		//UFUNCTION blueprintcallable, gör så vi kan kalla på func i BP.
 	UFUNCTION(BluePrintCallable, Category = Setup) void SetBarrelReference(UTankBarrel* BarrelToSet);
+	//UFUNCTION blueprintCallable, så vi kan kalla på denna func i BP.
+	UFUNCTION(BluePrintCallable, Category = Setup) void SetTurretReference(UTankTurret* TurretToSet);
+		//BP callable, fires projectiles.
+	UFUNCTION(BluePrintCallable, Category = Firing) void Fire();
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,7 +38,7 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Firing) float LaunchSpeed = 10000;	//TODO find sensible default.
+	UPROPERTY(EditAnywhere, Category = Firing) float LaunchSpeed = 100000;	//TODO find sensible default.
 
 
 	
