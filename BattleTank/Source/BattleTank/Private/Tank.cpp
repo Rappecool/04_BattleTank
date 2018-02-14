@@ -2,6 +2,9 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
+#include "Runtime/Engine/Classes/Engine/World.h" //Intellisense GetWorld().
+#include "TankBarrel.h"
+#include "Projectile.h"
 
 // Sets default values
 ATank::ATank()
@@ -30,7 +33,9 @@ UFUNCTION(BluePrintCallable, Category = Setup) void ATank::SetBarrelReference(UT
 		//calls our aimingcomponent to set current BarrelReference.
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 
-	UE_LOG(LogTemp,Warning,TEXT("SetBarrelReference succeeded."))
+	UE_LOG(LogTemp, Warning, TEXT("SetBarrelReference succeeded."));
+
+	Barrel = BarrelToSet;
 
 	return UFUNCTION(BluePrintCallable, Category = Setup) void();
 }
@@ -50,6 +55,13 @@ UFUNCTION(BluePrintCallable, Category = Firing) void ATank::Fire()
 	auto Time = GetWorld()->GetTimeSeconds();
 
 	UE_LOG(LogTemp, Warning, TEXT("%f: Firing!"),Time);
+
+	if (!Barrel)
+	{
+		return;
+	}
+		//Spawn a projectile at the socket location on the barrel.
+	GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")),Barrel->GetSocketRotation(FName("Projectile")));
 
 	return UFUNCTION(BluePrintCallable, Category = Firing) void();
 }

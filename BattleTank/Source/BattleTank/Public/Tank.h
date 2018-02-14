@@ -9,6 +9,7 @@
 class TankBarrel; //Forward Declaration
 class UTankAimingComponent; //Forward declaration
 class UTankTurret; //Forward Declaration
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -18,6 +19,8 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
+		
+	//TODO: Remove default Collision box and replace with box One to fix errors while playing that interferes with aiming.
 
 	void AimAt(FVector HitLocation);
 		//UFUNCTION blueprintcallable, gör så vi kan kalla på func i BP.
@@ -39,6 +42,11 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Firing) float LaunchSpeed = 100000;	//TODO find sensible default.
+
+	UPROPERTY(EditAnywhere, Category = Setup) TSubclassOf<AProjectile> ProjectileBlueprint; //Alternative subclassof.
+
+		//Local barrel reference for spawning projectile.
+	UTankBarrel* Barrel = nullptr;
 
 
 	
