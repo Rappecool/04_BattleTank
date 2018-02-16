@@ -20,8 +20,8 @@ public:
 private:
 
 		//Setup variables for rotation of Turret.
-	UPROPERTY(EditAnywhere, Category = Setup) float MaxDegreesPerSecond = 25;
-	UPROPERTY(EditAnywhere, Category = Aiming) float MinRotation = -180;
-	UPROPERTY(EditAnywhere, Category = Aiming) float MaxRotation = 180;
+	UPROPERTY(EditDefaultsOnly, Category = Setup) float MaxDegreesPerSecond = 25;
+	UPROPERTY(EditDefaultsOnly, Category = Aiming) float MinRotation = -180;
+	UPROPERTY(EditDefaultsOnly, Category = Aiming) float MaxRotation = 180;
 	
 };

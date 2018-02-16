@@ -7,7 +7,7 @@
 #include "TankBarrel.generated.h"
 
 /**
- * 
+ Is used to set maximum driving force, and to apply forces to the tank.
  */
 UCLASS(meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
@@ -21,8 +21,8 @@ public:
 	
 private:
 		//setup variables for Elevation of barrel.
-	UPROPERTY(EditAnywhere, Category = Setup) float MaxDegreesPerSecond = 10;
-	UPROPERTY(EditAnywhere, Category = Aiming) float MinElevation = 0;
-	UPROPERTY(EditAnywhere, Category = Aiming) float MaxElevation = 40;
+	UPROPERTY(EditDefaultsOnly, Category = Setup) float MaxDegreesPerSecond = 10;
+	UPROPERTY(EditDefaultsOnly, Category = Aiming) float MinElevation = 0;
+	UPROPERTY(EditDefaultsOnly, Category = Aiming) float MaxElevation = 40;
 	
 };

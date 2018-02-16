@@ -20,7 +20,9 @@ void UTankTurret::Rotate(float RelativeSpeed)
 	auto RawNewRotation = RelativeRotation.Yaw + RotationChange;
 
 	//uses clamp to balance rotation.
-	auto Rotation = FMath::Clamp<float>(RawNewRotation, MinRotation, MaxRotation);
+	//auto Rotation = FMath::Clamp<float>(RawNewRotation, MinRotation, MaxRotation);
+
+	auto Rotation = RelativeRotation.Yaw + RotationChange;
 
 	SetRelativeRotation(FRotator(0,Rotation, 0));
 

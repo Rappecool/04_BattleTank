@@ -12,7 +12,8 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	//No need to protect pointers as added at construction. why=
+	//No need to protect pointers as added at construction. why?
+	//creates a subobject of TankAimingComponent in BP.
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
 }
@@ -52,16 +53,16 @@ UFUNCTION(BluePrintCallable, Category = Setup) void ATank::SetTurretReference(UT
 
 UFUNCTION(BluePrintCallable, Category = Firing) void ATank::Fire()
 {
-	auto Time = GetWorld()->GetTimeSeconds();
+	bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	UE_LOG(LogTemp, Warning, TEXT("%f: Firing!"),Time);
-
-	if (!Barrel)
+	if (Barrel && IsReloaded)
 	{
-		return;
-	}
 		//Spawn a projectile at the socket location on the barrel.
-	GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")),Barrel->GetSocketRotation(FName("Projectile")));
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = GetWorld()->GetTimeSeconds();
+	}
 
 	return UFUNCTION(BluePrintCallable, Category = Firing) void();
 }
