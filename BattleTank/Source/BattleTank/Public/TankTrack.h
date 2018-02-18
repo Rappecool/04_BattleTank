@@ -22,6 +22,8 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Moving) float MinSpeed = -1;
 	UPROPERTY(EditDefaultsOnly, Category = Moving) float MaxSpeed = 1;
+		//Max Force per track, in Newtons.
+	UPROPERTY(EditDefaultsOnly, Category = Moving) float TrackMaxDrivingForce = 400000; //Assume 40TON tank, and 1g acceleration
 	
 
 
