@@ -5,6 +5,7 @@
 #include "Runtime/Engine/Classes/Engine/World.h" //Intellisense GetWorld().
 #include "TankBarrel.h"
 #include "Projectile.h"
+#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -12,9 +13,13 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	//No need to protect pointers as added at construction. why?
+	//No need to protect pointers as added at construction.
+
 	//creates a subobject of TankAimingComponent in BP.
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+
+		//create sub object in BP for movement of AI tanks.
+	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
 }
 

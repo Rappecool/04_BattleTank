@@ -7,7 +7,10 @@ void ATankPlayerController::BeginPlay()
 {
 	//Använder oss utav Super för att kalla på den gamla BeginPlay funktionen och kör den före våra override tillägg.
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
+
+		//previous logs for possessing of tanks working.
+
+	/*UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
 
 	auto ControlledTank = GetControlledTank();
 	if (!ControlledTank)
@@ -17,7 +20,7 @@ void ATankPlayerController::BeginPlay()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), *(ControlledTank->GetName()));
-	}
+	}*/
 }
 
 ATank *ATankPlayerController::GetControlledTank()const

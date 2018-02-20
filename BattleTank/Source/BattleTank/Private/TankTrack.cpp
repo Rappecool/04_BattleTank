@@ -6,10 +6,6 @@ UFUNCTION(BlueprintCallable, Category = Input) void UTankTrack::SetThrottle(floa
 {
 	//auto Time = GetWorld()->GetTimeSeconds();
 
-	auto Name = GetName();
-
-	UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *Name, Throttle);
-
 		//TODO: clamp throttle value so player can't over-drive.
 
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;

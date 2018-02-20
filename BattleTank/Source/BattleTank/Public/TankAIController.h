@@ -22,5 +22,6 @@ private:
 
 	virtual void BeginPlay();
 	virtual void Tick(float DeltaTime) override;
-	
+		//for MoveToActor().
+	float AcceptanceRadius = 3000;
 };

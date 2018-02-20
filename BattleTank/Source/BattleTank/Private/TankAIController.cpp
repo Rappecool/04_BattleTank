@@ -22,6 +22,8 @@ void ATankAIController::Tick(float DeltaTime)
 	{
 		//TODO move towards player.
 
+		MoveToActor(PlayerTank, AcceptanceRadius);
+
 		//aim towards player.
 			//return tank that's controlled by AI.
 			//call AimAt from Tank.cpp.
