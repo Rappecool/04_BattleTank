@@ -49,15 +49,22 @@ UFUNCTION(BlueprintCallable, Category = Setup) void UTankMovementComponent::Init
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
 	//No need to call Super as we're overriding.
-	called = true;
 
 	auto Name = GetOwner()->GetName();
-	auto MoveVelocityString = MoveVelocity.ToString();
 
-	if (called)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RequestDirectMove called."));
-	}
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();	//returns size of vector(magnitude), as unit vector.
 
-	UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"),*Name, *MoveVelocityString);
+		//gets normal of Velocity, in order for DotProduct calculations to work.
+	auto AiForwardIntention = MoveVelocity.GetSafeNormal();
+
+		//calcs dotProduct in order to know direction of movement for AI tanks.
+	auto ForwardThrow = FVector::DotProduct(AiForwardIntention, TankForward);
+
+	auto RightThrow = FVector::CrossProduct(AiForwardIntention, TankForward).Z;
+
+	IntendTurnRight(RightThrow);
+
+	IntendMoveForward(ForwardThrow);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s: DotProduct: %f"),*Name,ForwardThrow);
 }

@@ -32,6 +32,5 @@ public:
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
-	bool called = false;
 	
 };
