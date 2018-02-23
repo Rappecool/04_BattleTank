@@ -19,10 +19,12 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	
 public:
 
-	ATank* ATankPlayerController::GetControlledTank()const;
 	void BeginPlay() override;
 		//needed for aiming.
 	void Tick(float DeltaTime) override;
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup") ATank* GetControlledTank()const;
 
 private:
 

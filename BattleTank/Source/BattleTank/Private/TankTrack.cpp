@@ -2,7 +2,7 @@
 
 #include "TankTrack.h"
 
-UFUNCTION(BlueprintCallable, Category = Input) void UTankTrack::SetThrottle(float Throttle)
+UFUNCTION(BlueprintCallable, Category = "Input") void UTankTrack::SetThrottle(float Throttle)
 {
 	//auto Time = GetWorld()->GetTimeSeconds();
 
@@ -16,5 +16,5 @@ UFUNCTION(BlueprintCallable, Category = Input) void UTankTrack::SetThrottle(floa
 		//needs to cast to UPrimitiveComponent since we need to call func AddForceAtLocation.
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 
-	return UFUNCTION(BlueprintCallable, Category = Input) void();
+	return UFUNCTION(BlueprintCallable, Category = "Input") void();
 }

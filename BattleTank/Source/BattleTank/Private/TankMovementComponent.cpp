@@ -3,7 +3,7 @@
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
 
-UFUNCTION(BlueprintCallable, Category = Movement) void UTankMovementComponent::IntendMoveForward(float Throw)
+UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
 
@@ -12,7 +12,7 @@ UFUNCTION(BlueprintCallable, Category = Movement) void UTankMovementComponent::I
 
 }
 
-UFUNCTION(BlueprintCallable, Category = Movement) void UTankMovementComponent::IntendTurnRight(float Throw)
+UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent::IntendTurnRight(float Throw)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
 
@@ -22,7 +22,7 @@ UFUNCTION(BlueprintCallable, Category = Movement) void UTankMovementComponent::I
 
 }
 
-UFUNCTION(BlueprintCallable, Category = Movement) void UTankMovementComponent::IntendTurnLeft(float Throw)
+UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent::IntendTurnLeft(float Throw)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
 
@@ -32,7 +32,7 @@ UFUNCTION(BlueprintCallable, Category = Movement) void UTankMovementComponent::I
 
 }
 
-UFUNCTION(BlueprintCallable, Category = Setup) void UTankMovementComponent::Initialise(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
+UFUNCTION(BlueprintCallable, Category = "Setup") void UTankMovementComponent::Initialise(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
 {
 	if (!LeftTrackToSet || !RightTrackToSet)
 	{

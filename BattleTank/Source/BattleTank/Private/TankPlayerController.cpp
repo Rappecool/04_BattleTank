@@ -23,7 +23,7 @@ void ATankPlayerController::BeginPlay()
 	}*/
 }
 
-ATank *ATankPlayerController::GetControlledTank()const
+UFUNCTION(BlueprintCallable, Category = "Setup") ATank *ATankPlayerController::GetControlledTank()const
 {
 	return Cast<ATank>(GetPawn());
 }

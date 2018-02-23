@@ -16,14 +16,14 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 	
 public:
 		//-1 for backwards and +1 for forward movement.
-	UFUNCTION (BlueprintCallable, Category = Input) void SetThrottle(float Throttle);
+	UFUNCTION (BlueprintCallable, Category = "Input") void SetThrottle(float Throttle);
 
 
 private:
-	UPROPERTY(EditDefaultsOnly, Category = Moving) float MinSpeed = -1;
-	UPROPERTY(EditDefaultsOnly, Category = Moving) float MaxSpeed = 1;
+	UPROPERTY(EditDefaultsOnly, Category = "Moving") float MinSpeed = -1;
+	UPROPERTY(EditDefaultsOnly, Category = "Moving") float MaxSpeed = 1;
 		//Max Force per track, in Newtons.
-	UPROPERTY(EditDefaultsOnly, Category = Moving) float TrackMaxDrivingForce = 400000; //Assume 40TON tank, and 1g acceleration
+	UPROPERTY(EditDefaultsOnly, Category = "Moving") float TrackMaxDrivingForce = 400000; //Assume 40TON tank, and 1g acceleration
 	
 
 

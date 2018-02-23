@@ -15,8 +15,8 @@ ATank::ATank()
 
 	//No need to protect pointers as added at construction.
 
-	//creates a subobject of TankAimingComponent in BP.
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	//creates a subobject of TankAimingComponent in BP, inherited.
+	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
 		//create sub object in BP for movement of AI tanks.
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
@@ -34,29 +34,7 @@ void ATank::AimAt(FVector HitLocation)
 	UE_LOG(LogTemp, Warning, TEXT("%s aiming at: %s"), *OurTankName, *HitLocation.ToString());*/
 }
 
-UFUNCTION(BluePrintCallable, Category = Setup) void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
-		//calls our aimingcomponent to set current BarrelReference.
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-
-	UE_LOG(LogTemp, Warning, TEXT("SetBarrelReference succeeded."));
-
-	Barrel = BarrelToSet;
-
-	return UFUNCTION(BluePrintCallable, Category = Setup) void();
-}
-
-UFUNCTION(BluePrintCallable, Category = Setup) void ATank::SetTurretReference(UTankTurret * TurretToSet)
-{
-		//calls our aimingComponent to set current BarrelReference.
-	TankAimingComponent->SetTurretReference(TurretToSet);
-
-	UE_LOG(LogTemp, Warning, TEXT("SetTurretReference succeeded"));
-
-	return UFUNCTION(BluePrintCallable, Category = Setup) void();
-}
-
-UFUNCTION(BluePrintCallable, Category = Firing) void ATank::Fire()
+UFUNCTION(BluePrintCallable, Category = "Firing") void ATank::Fire()
 {
 	bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 
@@ -69,7 +47,7 @@ UFUNCTION(BluePrintCallable, Category = Firing) void ATank::Fire()
 		LastFireTime = GetWorld()->GetTimeSeconds();
 	}
 
-	return UFUNCTION(BluePrintCallable, Category = Firing) void();
+	return UFUNCTION(BluePrintCallable, Category = "Firing") void();
 }
 
 void ATank::BeginPlay()
@@ -79,9 +57,9 @@ void ATank::BeginPlay()
 }
 
 // Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
+//void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+//{
+//	Super::SetupPlayerInputComponent(PlayerInputComponent);
+//
+//}
 

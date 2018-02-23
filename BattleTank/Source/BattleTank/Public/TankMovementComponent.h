@@ -18,19 +18,18 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 	
 public:
 	//Throw: how far back/forward joystick moves.
-	UFUNCTION(BlueprintCallable, Category = Movement) void IntendMoveForward(float Throw);
-	UFUNCTION(BlueprintCallable, Category = Movement) void IntendTurnRight(float Throw);
-	UFUNCTION(BlueprintCallable, Category = Movement) void IntendTurnLeft(float Throw);
+	UFUNCTION(BlueprintCallable, Category = "Movement") void IntendMoveForward(float Throw);
+	UFUNCTION(BlueprintCallable, Category = "Movement") void IntendTurnRight(float Throw);
+	UFUNCTION(BlueprintCallable, Category = "Movement") void IntendTurnLeft(float Throw);
 
 		//Initializes the tracks in BP.
-	UFUNCTION(BlueprintCallable, Category = Setup) void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
+	UFUNCTION(BlueprintCallable, Category = "Setup") void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
-	//TODO: Check best protection of method
-		//overriden function from NavMovementComponent
-	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
 	
+	//overriden function from NavMovementComponent
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 };
