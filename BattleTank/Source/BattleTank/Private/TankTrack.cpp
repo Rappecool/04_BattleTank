@@ -2,9 +2,12 @@
 
 #include "TankTrack.h"
 
-UFUNCTION(BlueprintCallable, Category = "Input") void UTankTrack::SetThrottle(float Throttle)
+UFUNCTION(BlueprintCallable, Category = "Input")  void UTankTrack::SetThrottle(float Throttle)
 {
-	//auto Time = GetWorld()->GetTimeSeconds();
+
+	//TODO: function crashes game, FIX.
+
+	auto Time = GetWorld()->GetTimeSeconds();
 
 		//TODO: clamp throttle value so player can't over-drive.
 

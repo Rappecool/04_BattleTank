@@ -7,6 +7,13 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
 
+	if (!LeftTrack || !RightTrack)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR."));
+		return;
+
+	}
+
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 
@@ -15,6 +22,13 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent::IntendTurnRight(float Throw)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
+
+	if (!LeftTrack || !RightTrack)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR."));
+		return;
+
+	}
 
 	LeftTrack->SetThrottle(Throw);
 		//set RightTrack to -Throw in order to turn.
@@ -25,6 +39,13 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent::IntendTurnLeft(float Throw)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
+
+	if (!LeftTrack || !RightTrack)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR."));
+		return;
+
+	}
 
 	LeftTrack->SetThrottle(-Throw);
 	//set RightTrack to -Throw in order to turn.
@@ -60,11 +81,12 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 		//calcs dotProduct in order to know direction of movement for AI tanks.
 	auto ForwardThrow = FVector::DotProduct(AiForwardIntention, TankForward);
 
+	IntendMoveForward(ForwardThrow);
+
 	auto RightThrow = FVector::CrossProduct(AiForwardIntention, TankForward).Z;
 
 	IntendTurnRight(RightThrow);
 
-	IntendMoveForward(ForwardThrow);
 
-	UE_LOG(LogTemp, Warning, TEXT("%s: DotProduct: %f"),*Name,ForwardThrow);
+	//UE_LOG(LogTemp, Warning, TEXT("%s: DotProduct: %f"),*Name,ForwardThrow);
 }

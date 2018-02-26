@@ -41,7 +41,7 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Reloading;
+	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Aiming;
 
 private:	
 	// Called every frame

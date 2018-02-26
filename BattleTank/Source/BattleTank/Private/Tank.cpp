@@ -21,13 +21,20 @@ ATank::ATank()
 		//create sub object in BP for movement of AI tanks.
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
+	UE_LOG(LogTemp, Warning, TEXT("Tank Constructor called"));
+
 }
 
 void ATank::AimAt(FVector HitLocation)
 {
 		//Add LaunchSpeed to be parsed 
+	if (!TankAimingComponent)
+	{
+		return;
+	}
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
-	TankAimingComponent->AimAtTurret(HitLocation, LaunchSpeed);
+	
+	//TankAimingComponent->AimAtTurret(HitLocation, LaunchSpeed); TODO: disabled or enabled func?
 	
 
 	/*auto OurTankName = GetName();
@@ -52,8 +59,9 @@ UFUNCTION(BluePrintCallable, Category = "Firing") void ATank::Fire()
 
 void ATank::BeginPlay()
 {
-	Super::BeginPlay();
-	
+	Super::BeginPlay();	//Needed for BP begin play to run!
+
+	UE_LOG(LogTemp, Warning, TEXT("Tank BeginPlay called"));
 }
 
 // Called to bind functionality to input
