@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
@@ -21,6 +22,19 @@ void ATankPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), *(ControlledTank->GetName()));
 	}*/
+
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+
+	if (ensure(AimingComponent))
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at Begin Play"));
+	}
+
 }
 
 UFUNCTION(BlueprintCallable, Category = "Setup") ATank *ATankPlayerController::GetControlledTank()const
@@ -41,7 +55,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 void ATankPlayerController::AimTowardsCrossHair()
 {
 	//Start the tank, moving the barrel so that a shot would hit where the crosshair intersects the world.
-	if (!GetControlledTank())
+	if (!ensure(GetControlledTank()))
 	{
 		return;
 	}

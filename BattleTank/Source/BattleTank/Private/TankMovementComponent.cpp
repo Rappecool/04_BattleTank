@@ -7,9 +7,9 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
 
-	if (!LeftTrack || !RightTrack)
+	if (!ensure(LeftTrack && RightTrack))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR."));
+		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR. IntendMoveForward"));
 		return;
 
 	}
@@ -23,9 +23,9 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
 
-	if (!LeftTrack || !RightTrack)
+	if (!ensure(LeftTrack && RightTrack))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR."));
+		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR: IntendTurnRight"));
 		return;
 
 	}
@@ -40,7 +40,7 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"),Throw);
 
-	if (!LeftTrack || !RightTrack)
+	if (!ensure(LeftTrack && RightTrack))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR."));
 		return;
@@ -55,7 +55,7 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 
 UFUNCTION(BlueprintCallable, Category = "Setup") void UTankMovementComponent::Initialise(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet)
+	if (!ensure(LeftTrackToSet && RightTrackToSet))
 	{
 		return;
 	}
@@ -63,10 +63,9 @@ UFUNCTION(BlueprintCallable, Category = "Setup") void UTankMovementComponent::In
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 
-		//TODO: Prevent double speed due to dual control use.
-
 }
 
+	//TODO: Study on DotProduct and Crossproduct.
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
 	//No need to call Super as we're overriding.

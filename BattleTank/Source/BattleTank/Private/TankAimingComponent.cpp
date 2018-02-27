@@ -25,7 +25,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 	auto Time = GetWorld()->GetTimeSeconds();
 
-	if(!Barrel)
+	if(!ensure(Barrel))
 	{ 
 		return;
 	}
@@ -59,7 +59,7 @@ void UTankAimingComponent::AimAtTurret(FVector HitLocation, float LaunchSpeed)
 
 	auto Time = GetWorld()->GetTimeSeconds();
 
-	if (!Turret)
+	if (!ensure(Turret))
 	{
 		return;
 	}
@@ -116,7 +116,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!Barrel)
+	if (!ensure(Barrel))
 	{
 		return;
 	}
@@ -134,7 +134,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 {
-	if (!Turret)
+	if (!ensure(Turret))
 	{
 		return;
 	}

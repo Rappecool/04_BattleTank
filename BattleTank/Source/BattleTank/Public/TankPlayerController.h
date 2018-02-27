@@ -25,6 +25,7 @@ public:
 
 protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup") ATank* GetControlledTank()const;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup") void FoundAimingComponent(UTankAimingComponent* AimCompRef);	//TODO: Check if correct FindComponentByClass is implemented in BP.
 
 private:
 

@@ -5,7 +5,6 @@
 #include "Runtime/Engine/Classes/Engine/World.h" //Intellisense GetWorld().
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -28,7 +27,7 @@ ATank::ATank()
 void ATank::AimAt(FVector HitLocation)
 {
 		//Add LaunchSpeed to be parsed 
-	if (!TankAimingComponent)
+	if (!ensure(TankAimingComponent))
 	{
 		return;
 	}
@@ -45,7 +44,12 @@ UFUNCTION(BluePrintCallable, Category = "Firing") void ATank::Fire()
 {
 	bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (Barrel && IsReloaded)
+	if (!ensure(Barrel))
+	{
+		return;
+	}
+
+	if (IsReloaded)
 	{
 		//Spawn a projectile at the socket location on the barrel.
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
