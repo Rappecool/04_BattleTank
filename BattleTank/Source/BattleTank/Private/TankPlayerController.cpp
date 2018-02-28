@@ -2,7 +2,6 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -23,18 +22,13 @@ void ATankPlayerController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), *(ControlledTank->GetName()));
 	}*/
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
 	if (!ensure(AimingComponent))
 	{
 		return;
 	}
 	FoundAimingComponent(AimingComponent);
-}
-
-UFUNCTION(BlueprintCallable, Category = "Setup") ATank *ATankPlayerController::GetControlledTank()const
-{
-	return Cast<ATank>(GetPawn());
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -49,19 +43,19 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	//Start the tank, moving the barrel so that a shot would hit where the crosshair intersects the world.
-	if (!ensure(GetControlledTank()))
+	FVector HitLocation; //OUT Parameter
+
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
+	if (!ensure(AimingComponent))
 	{
 		return;
 	}
-	
-	//Get World Location of crosshair through linetrace.
-	//if hit landscape == Tell Controlled Tank to aim at given point.
-	FVector HitLocation; //OUT Parameter
 
 	if (GetSightRayHitLocation(HitLocation)) //Has "side-effect", also going to line trace.
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
+		AimingComponent->AimAtTurret(HitLocation);
 	}
 
 }

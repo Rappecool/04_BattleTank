@@ -9,9 +9,9 @@
 #include "TankAIController.generated.h"
 
 class ATank;
-/**
- * 
- */
+class UTankAimingComponent;
+ 
+ //class enabling AI movement
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {

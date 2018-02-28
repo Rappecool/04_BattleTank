@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-#include "Tank.h"
+#include "TankAimingComponent.h"
 
 
 void ATankAIController::BeginPlay()
@@ -13,27 +13,31 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
-	auto ControlledTank = Cast<ATank>(GetPawn());
+	auto ControlledTank = GetPawn();
 
 		//get Player Tank.
-	if (!ensure(PlayerTank))
+	if (!ensure(PlayerTank && ControlledTank))
 	{
 		return;
 	}
-	//TODO move towards player.
 
 	MoveToActor(PlayerTank, AcceptanceRadius);
 
 	//aim towards player.
 	//return tank that's controlled by AI.
-	//call AimAt from Tank.cpp.
 	//get the Tank player is controlling and get location.
-	ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
+	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
+	AimingComponent->AimAtTurret(PlayerTank->GetActorLocation());
+
+
+	//TODO fix firing.
 	//Fire if rdy.
-	ControlledTank->Fire();		//TODO: Limit firing rate
+	//ControlledTank->Fire();
 
 }
 
