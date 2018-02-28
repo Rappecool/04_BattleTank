@@ -40,7 +40,7 @@ private:
 
 	UTankBarrel* Barrel = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Firing") float LaunchSpeed = 4000;	//TODO find sensible default.
+	UPROPERTY(EditDefaultsOnly, Category = "Firing") float LaunchSpeed = 4000;	//TODO: remove once firing is moved to aiming component.
 	UPROPERTY(EditDefaultsOnly, Category = "Setup") TSubclassOf<AProjectile> ProjectileBlueprint; //Alternative subclassof.
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") float ReloadTimeInSeconds = 3;
 

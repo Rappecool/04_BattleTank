@@ -33,7 +33,7 @@ void ATank::AimAt(FVector HitLocation)
 	}
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
 	
-	//TankAimingComponent->AimAtTurret(HitLocation, LaunchSpeed); TODO: disabled or enabled func?
+	TankAimingComponent->AimAtTurret(HitLocation, LaunchSpeed); //TODO: disabled or enabled func?
 	
 
 	/*auto OurTankName = GetName();
@@ -66,6 +66,8 @@ void ATank::BeginPlay()
 	Super::BeginPlay();	//Needed for BP begin play to run!
 
 	UE_LOG(LogTemp, Warning, TEXT("Tank BeginPlay called"));
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 // Called to bind functionality to input

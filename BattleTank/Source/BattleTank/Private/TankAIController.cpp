@@ -20,19 +20,20 @@ void ATankAIController::Tick(float DeltaTime)
 		//get Player Tank.
 	if (!ensure(PlayerTank))
 	{
-		//TODO move towards player.
-
-		MoveToActor(PlayerTank, AcceptanceRadius);
-
-		//aim towards player.
-			//return tank that's controlled by AI.
-			//call AimAt from Tank.cpp.
-			//get the Tank player is controlling and get location.
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-
-		//Fire if rdy.
-		ControlledTank->Fire();		//TODO: Limit firing rate
+		return;
 	}
+	//TODO move towards player.
+
+	MoveToActor(PlayerTank, AcceptanceRadius);
+
+	//aim towards player.
+	//return tank that's controlled by AI.
+	//call AimAt from Tank.cpp.
+	//get the Tank player is controlling and get location.
+	ControlledTank->AimAt(PlayerTank->GetActorLocation());
+
+	//Fire if rdy.
+	ControlledTank->Fire();		//TODO: Limit firing rate
 
 }
 

@@ -76,13 +76,15 @@ void UTankAimingComponent::AimAtTurret(FVector HitLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
 		//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s"),*TankName, *AimDirection.ToString());
-		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found."), Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found for turret."), Time);
 		MoveTurretTowards(AimDirection);
 	}
 
 	else
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("%f: No aim solution found."), Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: No aim solution found for turret."), Time);
+		//auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		//MoveTurretTowards(AimDirection);
 	}
 
 }
@@ -92,7 +94,7 @@ UFUNCTION(BlueprintCallable, Category = "Setup") void UTankAimingComponent::Init
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 
-
+	UE_LOG(LogTemp, Warning, TEXT("Barrel and Turret initalised in cpp successfully."));
 	return UFUNCTION(BlueprintCallable, Category = "Setup") void();
 }
 
@@ -118,6 +120,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	if (!ensure(Barrel))
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Barrel ptr in TankAimingComponent is null."))
 		return;
 	}
 
@@ -127,6 +130,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *DeltaRotator.ToString());
+
+	//UE_LOG(LogTemp, Warning, TEXT("UTankAimingComponent::MoveBarrelTowards working!."))
 
 	Barrel->Elevate(DeltaRotator.Pitch); 
 

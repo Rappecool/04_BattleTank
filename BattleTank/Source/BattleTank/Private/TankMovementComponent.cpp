@@ -9,7 +9,7 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 
 	if (!ensure(LeftTrack && RightTrack))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR. IntendMoveForward"));
+		//UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR. IntendMoveForward"));
 		return;
 
 	}
@@ -25,7 +25,7 @@ UFUNCTION(BlueprintCallable, Category = "Movement") void UTankMovementComponent:
 
 	if (!ensure(LeftTrack && RightTrack))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR: IntendTurnRight"));
+		//UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent::IntendMoveForward ERROR: IntendTurnRight"));
 		return;
 
 	}
