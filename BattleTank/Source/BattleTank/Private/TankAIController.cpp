@@ -37,7 +37,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 	//TODO fix firing.
 	//Fire if rdy.
-	//ControlledTank->Fire();
+	AimingComponent->Fire();
 
 }
 

@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"	//Include in cpp files, not h files!. Improves compilation time.
 #include "TankTurret.h"
+#include "Projectile.h"
 #include "Runtime/Engine/Classes/Engine/World.h" //Intellisense GetWorld().
 
 
@@ -12,7 +13,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 
-	PrimaryComponentTick.bCanEverTick = false; //Should this rly tick? no, since it's being constantly called from the PlayerController.
+	PrimaryComponentTick.bCanEverTick = true; //Should this rly tick? no, since it's being constantly called from the PlayerController.
 
 	// ...
 }
@@ -37,7 +38,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		//BUG, all params must be filled for whole func().
 	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLocation, LaunchSpeed,false,0,0,ESuggestProjVelocityTraceOption::DoNotTrace))
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
 		//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s"),*TankName, *AimDirection.ToString());
 		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found."), Time);
@@ -75,8 +76,6 @@ void UTankAimingComponent::AimAtTurret(FVector HitLocation)
 
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
-		//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s"),*TankName, *AimDirection.ToString());
-		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found for turret."), Time);
 		MoveTurretTowards(AimDirection);
 	}
 
@@ -98,22 +97,52 @@ UFUNCTION(BlueprintCallable, Category = "Setup") void UTankAimingComponent::Init
 	return UFUNCTION(BlueprintCallable, Category = "Setup") void();
 }
 
+UFUNCTION(BluePrintCallable, Category = "Firing") void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel))
+	{
+		return;
+	}
+
+	//can only shoot when reloaded.
+	if (FiringState != EFiringState::Reloading)
+	{
+		//Spawn a projectile at the socket location on the barrel.
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = GetWorld()->GetTimeSeconds();
+	}
+	return UFUNCTION(BluePrintCallable, Category = "Firing") void();
+}
+
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+		//so that first fire is after reload of shot.
+	LastFireTime = GetWorld()->GetTimeSeconds();
 	
 }
-
 
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+
+	else if (IsBarrelMoving())
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+	}
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -151,5 +180,20 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 
 	Turret->Rotate(DeltaRotator.Yaw);
 
+}
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel))
+	{
+		return false;
+	}
+
+		//current aiming direction of Barrel.
+	auto BarrelForward = Barrel->GetForwardVector();
+
+		//if Barrel and aimDirection isn't aiming in the same direction, Barrel moving == true.
+	
+	return !BarrelForward.Equals(AimDirection, 0.01);	//vectors are equal.
 }
 
