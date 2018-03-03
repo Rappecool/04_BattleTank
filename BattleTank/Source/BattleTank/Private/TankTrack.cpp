@@ -8,27 +8,34 @@ UTankTrack::UTankTrack()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UTankTrack::BeginPlay()
+{
+	Super::BeginPlay();
+
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+}
+
 void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	//calulate the slippage speed.
 
-	//auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
+	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 
 	////work out the required acceleration this frame to correct
 	//	// /Deltatime to know how much acceleration we need this frame.
 	//	//which direction is our acceleration in? multiply by GetRIghtVector.
 	//	//since we want the opposite acc of what we're slipping in, -slippage.
-	//auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
+	auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
 
 	////Calculate and apply sideways friction (F = m * a)
 
-	//auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 
-	//auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration) /2;	//Divide by two since there are two tracks.
+	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration) /2;	//Divide by two since there are two tracks.
 
-	//TankRoot->AddForce(CorrectionForce);
+	TankRoot->AddForce(CorrectionForce);
 
 }
 
@@ -50,4 +57,9 @@ UFUNCTION(BlueprintCallable, Category = "Input")  void UTankTrack::SetThrottle(f
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 
 	return UFUNCTION(BlueprintCallable, Category = "Input") void();
+}
+
+void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("I'm hit!"));
 }

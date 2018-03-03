@@ -16,6 +16,7 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 	
 public:
 	UTankTrack();
+	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 		//-1 for backwards and +1 for forward movement.
@@ -27,6 +28,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Moving") float MaxSpeed = 1;
 		//Max Force per track, in Newtons.
 	UPROPERTY(EditDefaultsOnly, Category = "Moving") float TrackMaxDrivingForce = 40000000; //Assume 40TON tank, and 1g acceleration
+
+	UFUNCTION() void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, 
+		FVector NormalImpulse, const FHitResult &Hit);
 	
 
 
