@@ -58,7 +58,9 @@ void ATankPlayerController::AimTowardsCrossHair()
 		return;
 	}
 
-	if (GetSightRayHitLocation(HitLocation)) //Has "side-effect", also going to line trace.
+	bool BGotHitLocation = GetSightRayHitLocation(HitLocation);
+
+	if (BGotHitLocation) //Has "side-effect", also going to line trace.
 	{
 		AimingComponent->AimAt(HitLocation);
 		AimingComponent->AimAtTurret(HitLocation);
@@ -93,10 +95,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 		//UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *LookDirection.ToString());
 
 		//Line-trace along that lookDirection, and see what we hit (up to max range).
-		GetLookVectorHitLocation(LookDirection, HitLocation);
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 
-	return true;
+	return false;
 }
 
 

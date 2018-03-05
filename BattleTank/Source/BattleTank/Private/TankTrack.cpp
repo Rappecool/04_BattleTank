@@ -5,7 +5,7 @@
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UTankTrack::BeginPlay()
@@ -15,9 +15,30 @@ void UTankTrack::BeginPlay()
 	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }
 
-void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+UFUNCTION(BlueprintCallable, Category = "Input")  void UTankTrack::SetThrottle(float Throttle)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+		//clamp value of throttle
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle,-1,+1);
+	
+}
+
+void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
+{
+		//this func gets called every frame as long as OnHit is happening.
+
+		//only call movement funcs when tank is on ground, optimises!
+
+	//Drive the tracks.
+	DriveTrack();
+	//apply sideways force, so turning is more smooth.
+	ApplySideWaysForce();
+	CurrentThrottle = 0;
+}
+
+void UTankTrack::ApplySideWaysForce()
+{
+		//gets the current frame.
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
 
 	//calulate the slippage speed.
 
@@ -33,33 +54,24 @@ void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 
-	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration) /2;	//Divide by two since there are two tracks.
+	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration) / 2;	//Divide by two since there are two tracks.
 
 	TankRoot->AddForce(CorrectionForce);
 
 }
 
-UFUNCTION(BlueprintCallable, Category = "Input")  void UTankTrack::SetThrottle(float Throttle)
+void UTankTrack::DriveTrack()
 {
-
-	//TODO: function crashes game, FIX.
-
 	auto Time = GetWorld()->GetTimeSeconds();
 
-		//TODO: clamp throttle value so player can't over-drive.
+	//TODO: clamp throttle value so player can't over-drive.
 
-	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
+	auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
 	auto ForceLocation = GetComponentLocation();
 
-		//how to get root of TankTrack UstaticMeshComp.
+	//how to get root of TankTrack UstaticMeshComp.
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-		//needs to cast to UPrimitiveComponent since we need to call func AddForceAtLocation.
+	//needs to cast to UPrimitiveComponent since we need to call func AddForceAtLocation.
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
-
-	return UFUNCTION(BlueprintCallable, Category = "Input") void();
 }
 
-void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
-{
-	UE_LOG(LogTemp, Warning, TEXT("I'm hit!"));
-}

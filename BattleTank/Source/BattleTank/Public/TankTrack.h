@@ -17,7 +17,6 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 public:
 	UTankTrack();
 	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 		//-1 for backwards and +1 for forward movement.
 	UFUNCTION (BlueprintCallable, Category = "Input") void SetThrottle(float Throttle);
@@ -31,6 +30,9 @@ private:
 
 	UFUNCTION() void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, 
 		FVector NormalImpulse, const FHitResult &Hit);
+	void ApplySideWaysForce();
+	void DriveTrack();
+	float CurrentThrottle = 0;
 	
 
 
