@@ -15,9 +15,9 @@ enum class EFiringState : uint8
 {
 	Locked,
 	Aiming,
-	Reloading
+	Reloading,
+	OutOfAmmo
 };
-
 	//Forward Declaration
 class UTankBarrel;
 //Holds barrel's properties and Elevate Method.
@@ -45,15 +45,17 @@ public:
 	//BP callable, fires projectiles.
 	UFUNCTION(BluePrintCallable, Category = "Firing") void Fire();
 
+	EFiringState GetFiringState()const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Aiming;
+	UFUNCTION(BlueprintCallable, Category = "Ammo") int GetAmmo()const;
 
 private:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	
 		//aiming funcs.
 	void MoveBarrelTowards(FVector AimDirection);
 	void MoveTurretTowards(FVector AimDirection);
@@ -71,6 +73,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") float LaunchSpeed = 4000;
 	double LastFireTime = 0;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Ammo") int Ammo = 3;
 		
 	
 };

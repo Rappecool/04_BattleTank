@@ -105,14 +105,20 @@ UFUNCTION(BluePrintCallable, Category = "Firing") void UTankAimingComponent::Fir
 	}
 
 	//can only shoot when reloaded.
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState != EFiringState::Reloading && Ammo > 0)
 	{
 		//Spawn a projectile at the socket location on the barrel.
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = GetWorld()->GetTimeSeconds();
+		Ammo--;
 	}
 	return UFUNCTION(BluePrintCallable, Category = "Firing") void();
+}
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
 }
 
 // Called when the game starts
@@ -125,12 +131,22 @@ void UTankAimingComponent::BeginPlay()
 	
 }
 
+UFUNCTION(BluePrintCallable, Category = "Ammo") int UTankAimingComponent::GetAmmo() const
+{
+	return Ammo;
+}
+
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (Ammo <= 0)
+	{
+		FiringState = EFiringState::OutOfAmmo;
+	}
+
+	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
 	}
