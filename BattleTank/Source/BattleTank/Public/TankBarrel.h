@@ -21,7 +21,7 @@ public:
 	
 private:
 		//setup variables for Elevation of barrel.
-	UPROPERTY(EditDefaultsOnly, Category = "Setup") float MaxDegreesPerSecond = 10;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup") float MaxDegreesPerSecond = 35;
 	UPROPERTY(EditDefaultsOnly, Category = "Aiming") float MinElevation = 0;
 	UPROPERTY(EditDefaultsOnly, Category = "Aiming") float MaxElevation = 40;
 	
