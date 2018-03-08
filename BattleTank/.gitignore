@@ -1,4 +1,5 @@
 # Visual Studio 2015 user specific files
+BattleTank.VC.VC.opendb
 .vs/
 
 # Visual Studio 2015 database file
@@ -71,8 +72,6 @@ Saved/*
 # Compiled source files for the engine to use
 Intermediate/*
 
-# StarterContent, own gitignore; might have to remove later.
-Content/StarterContent/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
