@@ -20,16 +20,20 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-		
-	//TODO: Remove default Collision box and replace with box One to fix errors while playing that interferes with aiming.
+		//called by the engine when actor damage is dealt.
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const &DamageEvent, class AController* EvenInstigator, AActor* DamageCauser) override;
+		//returns current health as a percentage of starting health between 0 and 1.
+	UFUNCTION(BlueprintPure, Category = "Health") float GetHealthPercent() const;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
-
 	// Called to bind functionality to input
 	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UPROPERTY(EditDefaultsOnly,Category = "Setup")int32 StartingHealth = 100;
+	UPROPERTY(VisibleAnywhere, Category = "Health")int32 CurrentHealth = StartingHealth;
+
 	
 };

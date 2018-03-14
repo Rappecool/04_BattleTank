@@ -7,6 +7,8 @@
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h" //Intellisense GetWorld().
 #include "TimerManager.h" //needed for timemanager of projectile destroy().
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/GameFramework/DamageType.h"
 
 
 // Sets default values
@@ -60,9 +62,13 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 		//destroy projectile when hit. Set ImpactBlast as new root.
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
+
+		//handle dmg
+	UGameplayStatics::ApplyRadialDamage(this, ProjectileDamage, GetActorLocation(), ExplosionForce->Radius, UDamageType::StaticClass(), TArray<AActor*>());
 	
 	FTimerHandle Timer;
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
+
 }
 
 void AProjectile::OnTimerExpire()
