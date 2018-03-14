@@ -5,6 +5,9 @@
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"	//needed for intellisense for some reason.
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
+#include "Runtime/Engine/Classes/Engine/World.h" //Intellisense GetWorld().
+#include "TimerManager.h" //needed for timemanager of projectile destroy().
+
 
 // Sets default values
 AProjectile::AProjectile()
@@ -53,6 +56,18 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 
 		//handles force to be pushed onto actor when OnHit.
 	ExplosionForce->FireImpulse();
+
+		//destroy projectile when hit. Set ImpactBlast as new root.
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+	
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
+}
+
+void AProjectile::OnTimerExpire()
+{
+	Destroy();
 }
 
 void AProjectile::LaunchProjectile(float Speed)
