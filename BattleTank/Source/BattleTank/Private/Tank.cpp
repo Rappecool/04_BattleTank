@@ -27,6 +27,8 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();	//Needed for BP begin play to run!
 
+	CurrentHealth = StartingHealth;
+
 	UE_LOG(LogTemp, Warning, TEXT("Tank BeginPlay called"));
 }
 
@@ -40,6 +42,7 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 	if (CurrentHealth <= 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Tank Died!"));
+		OnDeath.Broadcast();
 	}
 
 	return DamageToApply;

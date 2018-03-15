@@ -24,6 +24,9 @@ private:
 
 	virtual void BeginPlay();
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetPawn(APawn* InPawn) override;	//gets called when it's possessed.
+	UFUNCTION()void OnPossessedTankDeath();
 		//for MoveToActor().
 		//how close the AI tank can get.
 };
