@@ -2,25 +2,12 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	//Använder oss utav Super för att kalla på den gamla BeginPlay funktionen och kör den före våra override tillägg.
 	Super::BeginPlay();
-
-		//previous logs for possessing of tanks working.
-
-	/*UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
-
-	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController not possesing a tank"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), *(ControlledTank->GetName()));
-	}*/
 
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
@@ -29,6 +16,30 @@ void ATankPlayerController::BeginPlay()
 		return;
 	}
 	FoundAimingComponent(AimingComponent);
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);	//call super since we're overriding function.
+
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank))
+		{
+			return;
+		}
+		//if Tank.h broadcast OnDeath is true; then call OnPossessedTankDeath.
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+	}
+
+}
+
+void ATankPlayerController::OnPossessedTankDeath()
+{
+		//when tank is dead, set spectating only.
+	UE_LOG(LogTemp, Warning, TEXT("TankDeath called!"));
+	StartSpectatingOnly();
 }
 
 void ATankPlayerController::Tick(float DeltaTime)

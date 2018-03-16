@@ -21,6 +21,8 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 public:
 
 	void BeginPlay() override;
+	virtual void SetPawn(APawn* InPawn) override;
+	void OnPossessedTankDeath();
 		//needed for aiming.
 	void Tick(float DeltaTime) override;
 
